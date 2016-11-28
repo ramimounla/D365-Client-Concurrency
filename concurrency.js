@@ -5,10 +5,10 @@ var _recordLoadedVersion;
 var _schemaName = ""; 
 var _saving = false;
 
-packtNs.concurrency.init = function (schemaName)
+packtNs.concurrency.init = function ()
 {
-    _schemaName = schemaName;
     var modifiedResult = packtNs.concurrency.checkLastModified("0");
+    _schemaName = getSchemaName(Xrm.Page.data.entity.getEntityName());
     _recordLoadedVersion = modifiedResult.modifiedVersion;    
     Xrm.Page.ui.clearFormNotification("concurrency");
     Xrm.Page.data.entity.removeOnSave(packtNs.concurrency.checkConcurrency);
@@ -82,4 +82,25 @@ packtNs.concurrency.checkLastModified = function (recordLoadedVersion)
         return modifiedObject;
     }
     return null;
+}
+
+packtNs.concurrency.getSchemaName = function (logicalName) {
+    /// <summary locid='1'>Convert a logical name into a REST schema name</summary>
+    /// <param name='logicalName' locid='2'>The logical name of the entity to be transformed</param>
+    /// <returns type="String"/>
+
+    stringLength = logicalName.length;
+    lastLetter = logicalName.substring(stringLength - 1, stringLength);
+    result = "";
+
+    if (lastLetter == "y") {
+        result = logicalName.substring(0, stringLength - 1) + "ies";
+    }
+    else if (lastLetter == "s") {
+        result = logicalName + "es";
+    }
+    else
+        result = logicalName + "s";
+
+    return result;
 }
