@@ -51,7 +51,7 @@ packtNs.concurrency.callSecondSave = function (executionObj, saveType){
         if(saveType === 2){
             Xrm.Page.data.entity.save("saveandclose");
         }
-        else if(saveType === 58){
+        else if(saveType === 59){
             Xrm.Page.data.entity.save("saveandnew")    ;        
         }
         else{
